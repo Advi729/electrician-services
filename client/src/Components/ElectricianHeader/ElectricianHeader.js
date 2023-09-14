@@ -51,7 +51,7 @@ const ElectricianHeader = () => {
         <div className="profile">
         { electrician && 
         <>
-        <span className="m-4">Welcome {electrician?.firstname}!  </span>
+        <span className="m-4"><Link to='/electrician/profile'>{electrician?.firstname}'s profile</Link></span>
         {/* <Link to='/profile' ><img
             className="img rounded-circle" src={avatar}
             width="30em" alt="Profile"/>

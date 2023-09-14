@@ -15,6 +15,8 @@ import AdminLogin from './Pages/admin/AdminLogin';
 import AdminDashboard from './Pages/admin/AdminDashboard';
 import UsersList from './Pages/admin/UsersList';
 import ElectriciansList from './Pages/admin/ElectriciansList';
+import Profile from './Pages/user/Profile';
+import ElectricianProfile from './Pages/electrician/Profile';
 
 const appRouter = createBrowserRouter([
   {
@@ -33,6 +35,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/user-signup',
         element: <UserSignup />,
+      },
+      {
+        path: '/profile',
+        element: <Profile />,
       },
     ],
   },
@@ -83,6 +89,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/electrician/dashboard',
         element: <Dashboard />,
+      },
+      {
+        path: '/electrician/profile',
+        element: <ElectricianProfile />,
       },
     ],
   },

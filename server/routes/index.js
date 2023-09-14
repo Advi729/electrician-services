@@ -14,7 +14,7 @@ router.post('/api/auth/user-signup', verifySignUp.checkDuplicateEmail, userContr
 router.post('/api/auth/user-login', userControllers.userLogIn);
 
 // Electricians list user-side
-router.get('/electricians-list', electricianControllers.electriciansList);
+router.get('/electricians-list', electricianControllers.electriciansListUser);
 
 
 

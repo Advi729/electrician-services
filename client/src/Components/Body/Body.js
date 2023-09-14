@@ -17,8 +17,8 @@ const Body = () => {
             const response = await fetch('http://localhost:5000/electricians-list');
             const result = await response.json();
             console.log('result in electriciansslist', result);
-            setElectriciansList(result.electricians);
-            setFilteredElectriciansList(result.electricians);
+            setElectriciansList(result.approvedElectricians);
+            setFilteredElectriciansList(result.approvedElectricians);
         } catch (error) {
             console.error('error in login: ',error);
         }

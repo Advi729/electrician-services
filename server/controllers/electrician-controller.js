@@ -27,7 +27,21 @@ const electricianLogIn = asyncHandler(async(req, res) => {
     }
 });
 
-// list of all electricians
+// list of all approved electricians in user side
+const electriciansListUser = asyncHandler(async (req, res) => {
+    try {
+        const electricians = await electricianHelpers.findAllElectricians();
+        console.log('electricians in findAllElectricians: ', electricians);
+        if(electricians) {
+            const approvedElectricians = electricians.filter(electrician => electrician.isApproved === true);
+            res.json({approvedElectricians});
+        }
+    } catch (error) {
+        console.error('error in electrslist ctrlller: ', error);
+    }
+});
+
+// list of all electricians in admin side
 const electriciansList = asyncHandler(async (req, res) => {
     try {
         const electricians = await electricianHelpers.findAllElectricians();
@@ -36,7 +50,7 @@ const electriciansList = asyncHandler(async (req, res) => {
             res.json({electricians});
         }
     } catch (error) {
-        console.error('error in userslist ctrlller: ', error);
+        console.error('error in eleclist ctrlller: ', error);
     }
 });
 
@@ -83,6 +97,7 @@ module.exports = {
     electricianLogIn, 
     electricianSignUp, 
     electriciansList, 
+    electriciansListUser, 
     deleteElectrician, 
     approveElectrician,
     disapproveElectrician

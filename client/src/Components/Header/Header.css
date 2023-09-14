@@ -1,0 +1,31 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.nav-items ul {
+    list-style-type: none;
+    display: flex;
+    margin-right: 100px;
+}
+
+.nav-items ul li {
+    padding: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.img {
+    margin-top: 12px;
+}
+
+/* .logout {
+    color: inherit;
+} */
+
+.welcome {
+    padding-bottom: 10px;
+}

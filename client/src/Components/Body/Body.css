@@ -1,0 +1,9 @@
+.electricians-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.link-style {
+    text-decoration: none;
+    color: inherit;
+}

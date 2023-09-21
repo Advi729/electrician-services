@@ -29,7 +29,7 @@ const AdminHeader = () => {
             dispatch(logout());
                   localStorage.removeItem("admin"); 
                  navigate('/admin/login');
-            console.log('Perform logout logic and redirect here');
+          
           }
         });
       };
@@ -45,6 +45,7 @@ const AdminHeader = () => {
                 <>
                 <li><Link to='/admin/users-list'>Users</Link></li> 
                 <li><Link to='/admin/electricians-list'>Electricians</Link></li> 
+                <li><Link to='/admin/services-list'>Services</Link></li>
                 </>
                 }
                 {

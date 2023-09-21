@@ -74,7 +74,7 @@ const findElectrician = asyncHandler(async (data) => {
 const findAllElectricians = asyncHandler(async () => {
     try {
         const allElectricians = await Electrician.find({role: 'electrician'});
-        console.log('allElectricians in helper: ', allElectricians);
+      
         if(allElectricians) {
             return allElectricians;
         }
@@ -82,6 +82,7 @@ const findAllElectricians = asyncHandler(async () => {
         console.error('error in findallElectricians helper: ', error);
     }
 });
+
 // Delete the electrician
 const deleteTheElectrician = asyncHandler(async (id) => {
   try {
@@ -118,11 +119,24 @@ const disapproveTheElectrician = asyncHandler(async (id) => {
   }
 });
 
+// Single electrician details
+const singleElectrician = asyncHandler(async (id) => {
+  try {
+    const electrician = await Electrician.findById(id);
+    if (electrician) {
+      return electrician;
+    }
+  } catch (error) {
+    console.error('error in singleElectrician', error);
+  }
+});
+
 module.exports = { 
   addElectrician, 
   findElectrician, 
   findAllElectricians, 
   deleteTheElectrician, 
   approveTheElectrician,
-  disapproveTheElectrician
+  disapproveTheElectrician,
+  singleElectrician
 };

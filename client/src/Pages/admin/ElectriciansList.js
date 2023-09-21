@@ -68,7 +68,7 @@ const ElectriciansList = () => {
     
     <div className="ml-7 min-w-0 flex justify-center">
         <h3 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-        electricians list
+        Electricians list
         </h3>
     </div>
 

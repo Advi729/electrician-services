@@ -17,6 +17,10 @@ import UsersList from './Pages/admin/UsersList';
 import ElectriciansList from './Pages/admin/ElectriciansList';
 import Profile from './Pages/user/Profile';
 import ElectricianProfile from './Pages/electrician/Profile';
+import ServicesList from './Pages/admin/ServicesList';
+import AddServices from './Pages/admin/AddServices';
+import ElectricianServicesList from './Pages/electrician/ServicesList';
+import ElectricianProfileService from './Pages/user/ElectricianProfile';
 
 const appRouter = createBrowserRouter([
   {
@@ -39,6 +43,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile />,
+      },
+      {
+        path: '/electrician-profile/:id',
+        element: <ElectricianProfileService />,
       },
     ],
   },
@@ -67,6 +75,14 @@ const appRouter = createBrowserRouter([
         path: '/admin/electricians-list',
         element: <ElectriciansList />,
       },
+      {
+        path: '/admin/services-list',
+        element: <ServicesList />,
+      },
+      {
+        path: '/admin/add-services',
+        element: <AddServices />,
+      }
     ],
   },
   {
@@ -93,6 +109,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/electrician/profile',
         element: <ElectricianProfile />,
+      },
+      {
+        path: '/electrician/services-list',
+        element: <ElectricianServicesList />,
       },
     ],
   },

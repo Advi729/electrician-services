@@ -25,11 +25,24 @@ const electricianSlice = createSlice({
             state.isLoggedIn = false;
             state.electrician = null;
         },
+        subscribe: (state, action) => {
+            const { serviceId } = action.payload; 
+            if (!state.electrician.subscribedServices.includes(serviceId)) {
+                state.electrician.subscribedServices.push(serviceId);
+            }
+        },
+        unsubscribe: (state, action) => {
+            const { serviceId } = action.payload; 
+            const index = state.electrician.subscribedServices.indexOf(serviceId);
+            if (index !== -1) {
+                state.electrician.subscribedServices.splice(index, 1);
+            }
+        },
         uploadProfileImage: (state, action) => {
             state.electrician.image = action.payload;
         }
     }
 });
 
-export const { register, login, logout, uploadProfileImage } = electricianSlice.actions;
+export const { register, login, logout, uploadProfileImage, subscribe, unsubscribe } = electricianSlice.actions;
 export default electricianSlice.reducer;

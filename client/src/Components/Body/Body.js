@@ -146,7 +146,7 @@ const Body = () => {
           ) : (
             filteredElectriciansList?.map((electrician) => {
               return (
-                <Link to={'/electricians/' + electrician._id} key={electrician._id} className="link-style"><ElectricianCard {...electrician} /></Link>             
+                <Link to={'/electrician-profile/' + electrician._id} key={electrician._id} className="link-style"><ElectricianCard {...electrician} /></Link>             
               )
             })
           )

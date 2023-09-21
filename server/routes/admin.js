@@ -34,6 +34,12 @@ router.get('/block-user/:id', userControllers.blockUser);
 // unblock a user
 router.get('/unblock-user/:id', userControllers.unblockUser);
 
+// add the service
+router.post('/add-services', adminControllers.addService);
+
+// list all the services
+router.get('/services-list', adminControllers.servicesList);
+
 // // authorization
 // router.get('/api/test/user', authorization.verifyToken, (req, res) => {
 //   res.json('user logged in.');

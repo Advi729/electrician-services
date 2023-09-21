@@ -31,7 +31,6 @@ const electricianLogIn = asyncHandler(async(req, res) => {
 const electriciansListUser = asyncHandler(async (req, res) => {
     try {
         const electricians = await electricianHelpers.findAllElectricians();
-        console.log('electricians in findAllElectricians: ', electricians);
         if(electricians) {
             const approvedElectricians = electricians.filter(electrician => electrician.isApproved === true);
             res.json({approvedElectricians});
@@ -45,7 +44,6 @@ const electriciansListUser = asyncHandler(async (req, res) => {
 const electriciansList = asyncHandler(async (req, res) => {
     try {
         const electricians = await electricianHelpers.findAllElectricians();
-        console.log('electricians in findAllElectricians: ', electricians);
         if(electricians) {
             res.json({electricians});
         }
@@ -93,6 +91,20 @@ const disapproveElectrician = asyncHandler(async (req, res) => {
     }
 });
 
+// details of single electrician
+const electricianDetails = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const electrician = await electricianHelpers.singleElectrician(id);
+        // console.log('in electricianctrl:', electrician);
+        if(electrician) {
+            res.json({electrician});
+        }
+    } catch (error) {
+        console.error('error in electdetails ctrlller: ', error);
+    }
+});
+
 module.exports = { 
     electricianLogIn, 
     electricianSignUp, 
@@ -100,5 +112,6 @@ module.exports = {
     electriciansListUser, 
     deleteElectrician, 
     approveElectrician,
-    disapproveElectrician
+    disapproveElectrician,
+    electricianDetails
 };

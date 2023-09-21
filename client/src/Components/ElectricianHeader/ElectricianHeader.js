@@ -41,7 +41,7 @@ const ElectricianHeader = () => {
         <div className='nav-items'>
             <ul>
                 <li><Link to='/electrician/dashboard'>Dashboard</Link></li>
-                <li><Link to=''>Orders</Link></li> 
+                <li><Link to='/electrician/services-list'>Services</Link></li> 
                 {
                   isLoggedIn ? <li className="logout" onClick={handleLogout}><Link>Log out</Link></li> 
                   : <li><Link to='/electrician/login'>Log In</Link></li>

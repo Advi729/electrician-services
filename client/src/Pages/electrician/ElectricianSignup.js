@@ -35,7 +35,7 @@ const ElectricianSignup = () => {
             const result = await response.json();
             console.log(result.status);
             if(result.status) {
-                navigate('/electrician-login');
+                navigate('/electrician/login');
             }
         } catch (error) {
             console.error(error);

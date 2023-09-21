@@ -14,7 +14,7 @@ const UserLogin = () => {
     const dispatch = useDispatch();
     const handleSubmit = async (data) => {
         try {
-            const response = await fetch('http://localhost:5000/api/auth/user-login', {
+            const response = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,6 +23,7 @@ const UserLogin = () => {
             });
             const result = await response.json();
             if(result.status) {
+                if(!result.user.isBlocked) {
                 if (result.user.accessToken) {
                     localStorage.setItem("user", JSON.stringify(result.user));
                     dispatch(login(result.user));
@@ -30,6 +31,10 @@ const UserLogin = () => {
                 //   localStorage.removeItem("user");   
                 console.log('accesstoken:;', result.user);
                 navigate('/');
+                } else {
+                  const loginError = document.getElementById('login-error');
+                  loginError.innerHTML = 'Your account is blocked.';
+                }
             }
         } catch (error) {
             console.error('error in login: ',error);
@@ -92,6 +97,7 @@ const UserLogin = () => {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
+              <p id="email-error" className="text-red-600"></p>
             </div>
 
             <div>
@@ -127,6 +133,9 @@ const UserLogin = () => {
               >
                 Log in
               </button>
+              <div className="mt-2">
+                <p id="login-error" className="text-red-600"></p>
+              </div>
             </div>
           </div>
 

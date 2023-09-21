@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Service = '../models/service-model';
 
 const electricianSchema = new mongoose.Schema({
       firstname: {
@@ -53,6 +54,12 @@ const electricianSchema = new mongoose.Schema({
       address: {
         type: String,
       },
+      subscribedServices: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Service,
+      },
+    ]
 });
 
 electricianSchema.index({ location: '2dsphere' });

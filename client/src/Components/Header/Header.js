@@ -43,7 +43,7 @@ const Header = () => {
             <ul>
                 <li><Link to='/'>Home</Link></li>
                 <li><Link to=''>Cart</Link></li> 
-                <li><Link to=''>Orders</Link></li>  
+               
                 {
                   isLoggedIn ? <li className="logout" onClick={handleLogout}><Link>Log out</Link></li> 
                   : <li><Link to='/user-login'>Log In</Link></li>

@@ -8,13 +8,16 @@ const electricianControllers = require('../controllers/electrician-controller');
 
 
 // User sign up
-router.post('/api/auth/user-signup', verifySignUp.checkDuplicateEmail, userControllers.userSignUp);
+router.post('/signup', verifySignUp.checkDuplicateEmail, userControllers.userSignUp);
 
 // User log in 
-router.post('/api/auth/user-login', userControllers.userLogIn);
+router.post('/login', userControllers.userLogIn);
 
 // Electricians list user-side
 router.get('/electricians-list', electricianControllers.electriciansListUser);
+
+// Details of single electrician
+router.get('/electrician-profile/:id', electricianControllers.electricianDetails);
 
 
 

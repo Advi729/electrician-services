@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/user-model');
+const Service = require('../models/service-model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -36,30 +37,37 @@ const findAdmin = asyncHandler(async (data) => {
       console.error('error in login helper: ', error);
     }
   });
-  
-  // Find all users
-  const findAllUsers = asyncHandler(async () => {
-      try {
-          const allUsers = await User.find({role: 'user'});
-          console.log('allusers in helper: ', allUsers);
-          if(allUsers) {
-              return allUsers;
-          }
-      } catch (error) {
-          console.error('error in findallusers helper: ', error);
-      }
-  });
-  
-  // Delete the user
-  const deleteTheUser = asyncHandler(async (id) => {
-      try {
-          const deletedUser = await User.deleteOne({_id: id});
-          if(deletedUser) {
-              return true;
-          }
-      } catch (error) {
-          console.error('error in deleteuser helper', error);
-      }
-  });
 
-  module.exports = { findAdmin, findAllUsers, deleteTheUser };
+  // Add the service
+const addTheService = asyncHandler(async (data) => {
+  try {
+    const service = new Service({
+      title: data.title,
+      description: data.description,
+      price: data.price,
+    });
+    const serviceCreated = await service.save();
+    console.log('user saved: ', service);
+    if (serviceCreated) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('error in addtheservice helper',error);
+  }
+});
+
+// Find all services
+const findAllServices = asyncHandler(async () => {
+  try {
+      const allServices = await Service.find();
+      console.log('allServices in helper: ', allServices);
+      if(allServices) {
+          return allServices;
+      }
+  } catch (error) {
+      console.error('error in findallServices helper: ', error);
+  }
+});
+
+  module.exports = { findAdmin, addTheService, findAllServices };

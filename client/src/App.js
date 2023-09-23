@@ -21,6 +21,9 @@ import ServicesList from './Pages/admin/ServicesList';
 import AddServices from './Pages/admin/AddServices';
 import ElectricianServicesList from './Pages/electrician/ServicesList';
 import ElectricianProfileService from './Pages/user/ElectricianProfile';
+import ElectricianCertificate from './Components/ElectricianCertificate/ElectricianCertificate';
+import ElectricianProfileAdmin from './Pages/admin/ElectricianProfile';
+import ElectricianCertificateAdmin from './Pages/admin/ElectricianCertificateAdmin';
 
 const appRouter = createBrowserRouter([
   {
@@ -82,7 +85,15 @@ const appRouter = createBrowserRouter([
       {
         path: '/admin/add-services',
         element: <AddServices />,
-      }
+      },
+      {
+        path: '/admin/electrician-profile/:id',
+        element: <ElectricianProfileAdmin />,
+      },
+      {
+        path: '/admin/electrician-certificate/:id',
+        element: <ElectricianCertificateAdmin />
+      },
     ],
   },
   {
@@ -113,6 +124,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/electrician/services-list',
         element: <ElectricianServicesList />,
+      },
+      {
+        path: '/electrician/certificate',
+        element: <ElectricianCertificate />,
       },
     ],
   },

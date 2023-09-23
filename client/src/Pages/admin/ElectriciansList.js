@@ -117,9 +117,11 @@ const ElectriciansList = () => {
                 <td className="px-6 py-4">
                 {index + 1}
                 </td>
+                <Link to={'/admin/electrician-profile/' + electrician._id}>
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 {electrician.firstname + ' ' + electrician.lastname}
                 </th>
+                </Link>
                 <td className="px-6 py-4">
                 {electrician.email}
                 </td>

@@ -2,11 +2,14 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../slices/adminSlice";
+import { validateEmail, validatePassword } from "../../validation/login";
 
 const AdminLogin = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const data = {
         email, 
         password,
@@ -14,6 +17,16 @@ const AdminLogin = () => {
     const dispatch = useDispatch();
     const handleSubmit = async (data) => {
         try {
+          if (!email || !password || emailError || passwordError) {
+            if (!email) {
+              setEmailError('Email address is required.');
+            }
+            if (!password) {
+              setPasswordError('Password is required.');
+            }
+            return; 
+          }
+            
             const response = await fetch('http://localhost:5000/admin/login', {
                 method: 'POST',
                 headers: {
@@ -26,10 +39,14 @@ const AdminLogin = () => {
                 if (result.admin.accessToken) {
                     localStorage.setItem("admin", JSON.stringify(result.admin));
                     dispatch(login(result.admin));
-                  }
+                  
                 //   localStorage.removeItem("admin");   
                 console.log('accesstoken:;', result.admin);
                 navigate('/admin/dashboard');
+                } else {
+                  const loginError = document.getElementById('login-error');
+                  loginError.innerHTML = result.admin.message;
+                }
             }
         } catch (error) {
             console.error('error in login: ',error);
@@ -37,31 +54,6 @@ const AdminLogin = () => {
     };
 
     return (
-        // <div className="loginParentDiv">
-        //     <label htmlFor="email">Email</label>
-        //     <br/>
-        //     <input 
-        //         className="input"
-        //         type="email"
-        //         value={email}
-        //         onChange={(e) => setEmail(e.target.value)}
-        //         id="email"
-        //         name="email"
-        //     />
-        //     <br/>
-        //     <label htmlFor="password">Password</label>
-        //     <br/>
-        //     <input 
-        //         className="input"
-        //         type="password"
-        //         value={password}
-        //         onChange={(e) => setPassword(e.target.value)}
-        //         id="password"
-        //         name="password"
-        //     />
-        //     <br/>
-        //     <button onClick={() => handleSubmit(data)}>Log In</button>
-        // </div>
         <>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -87,11 +79,13 @@ const AdminLogin = () => {
                   name="email"
                   type="email"
                   onChange={(e) => setEmail(e.target.value)}
+                  onBlur={() => validateEmail(email, setEmailError)}
                   autoComplete="email"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ${ emailError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {emailError && <p id="email-error" className="text-red-600 mt-1">{emailError}</p>}
             </div>
 
             <div>
@@ -112,11 +106,13 @@ const AdminLogin = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onBlur={() => validatePassword(password, setPasswordError)}
                   autoComplete="current-password"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ${ passwordError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'} focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {passwordError && <p id="password-error" className="text-red-600 mt-1">{passwordError}</p>}
             </div>
 
             <div>
@@ -127,6 +123,9 @@ const AdminLogin = () => {
               >
                 Log in
               </button>
+              <div className="mt-2">
+                <p id="login-error" className="text-red-600"></p>
+              </div>
             </div>
           </div>
 

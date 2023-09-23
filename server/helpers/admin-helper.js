@@ -11,7 +11,9 @@ const findAdmin = asyncHandler(async (data) => {
       const admin = await User.findOne({ email });
   
       if (!admin || admin.role !== 'admin') {
-        return false;
+        return {
+          message: 'No admin account with this email.'
+        };
       }
   
       const passwordIsValid = bcrypt.compareSync(password, admin.password);
@@ -19,7 +21,7 @@ const findAdmin = asyncHandler(async (data) => {
       if (!passwordIsValid) {
         return {
           accessToken: null,
-          message: 'Invalid Password!',
+          message: 'Invalid Password.',
         };
       }
   

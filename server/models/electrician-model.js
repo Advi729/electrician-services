@@ -40,6 +40,9 @@ const electricianSchema = new mongoose.Schema({
       image: {
         type: String,
       },
+      certificate: {
+        type: String,
+      },
       location: {
         type: {
           type: String,

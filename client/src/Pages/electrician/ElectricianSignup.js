@@ -1,20 +1,26 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { validateEmail, validateFirstname, validateLastname, validatePassword, validatePhone } from "../../validation/signup";
 
 const ElectricianSignup = () => {
     const navigate = useNavigate();
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
+    const [firstnameError, setFirstnameError] = useState('');
+    const [lastnameError, setLastnameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     // const [location, setLocation] = useState({});
     // const [address, setAddress] = useState('');
 
     const data = {
-        firstname: firstName, 
-        lastname: lastName,
+        firstname, 
+        lastname,
         email,
         phone,
         password,
@@ -25,6 +31,25 @@ const ElectricianSignup = () => {
 
     const handleSubmit = async (data) => {
         try {
+          if (!firstname || !lastname || !email || !phone || !password ||
+            firstnameError || lastnameError || emailError || phoneError || passwordError) {
+          if (!firstname) {
+            setFirstnameError('First name is required.');
+          } 
+          if (!lastname) {
+            setLastnameError('Last name is required.');
+          }
+          if (!email) {
+            setEmailError('Email address is required.');
+          }
+          if (!phone) {
+            setPhoneError('Phone number is required.')
+          }
+          if (!password) {
+            setPasswordError('Password is required.');
+          }
+          return; 
+        }
             const response = await fetch('http://localhost:5000/electrician/signup', {
                 method: 'POST',
                 headers: {
@@ -41,6 +66,8 @@ const ElectricianSignup = () => {
             console.error(error);
         }
     };
+
+   
 
 
     // current location of the electrician
@@ -102,13 +129,17 @@ const ElectricianSignup = () => {
                   id="firstname"
                   name="firstname"
                   type="firstname"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)}
+                  onBlur={() => validateFirstname(firstname, setFirstnameError)}
                   autoComplete="firstname"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                  ${firstnameError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'} 
+                  focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {firstnameError && <p id="firstname-error" className="text-red-600 mt-1">{firstnameError}</p>}
             </div>
 
             <div>
@@ -120,13 +151,17 @@ const ElectricianSignup = () => {
                   id="lastname"
                   name="lastname"
                   type="lastname"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
+                  onBlur={() => validateLastname(lastname, setLastnameError)}
                   autoComplete="lastname"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm
+                  ${lastnameError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'} 
+                   focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {lastnameError && <p id="firstname-error" className="text-red-600 mt-1">{lastnameError}</p>}
             </div>
 
             <div>
@@ -140,11 +175,15 @@ const ElectricianSignup = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onBlur={() => validateEmail(email, setEmailError)}
                   autoComplete="email"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm
+                  ${emailError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'}
+                   focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {emailError && <p id="firstname-error" className="text-red-600 mt-1">{emailError}</p>}
             </div>
 
             <div>
@@ -158,11 +197,15 @@ const ElectricianSignup = () => {
                   type="phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  onBlur={() => validatePhone(phone, setPhoneError)}
                   autoComplete="phone"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                  ${phoneError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'}
+                  focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {phoneError && <p id="firstname-error" className="text-red-600 mt-1">{phoneError}</p>}
             </div>
 
             {/* <div className="mt-2">
@@ -200,12 +243,18 @@ const ElectricianSignup = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onBlur={() => validatePassword(password, setPasswordError)}
                   autoComplete="current-password"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm
+                  ${passwordError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'}
+                    focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {passwordError && <p id="firstname-error" className="text-red-600 mt-1">{passwordError}</p>}
             </div>
+
+            
 
             <div>
               <button

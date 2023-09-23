@@ -38,7 +38,9 @@ const findUser = asyncHandler(async (data) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return false;
+      return {
+        message: 'No user found with this email.'
+      };
     }
 
     const passwordIsValid = bcrypt.compareSync(password, user.password);
@@ -46,7 +48,7 @@ const findUser = asyncHandler(async (data) => {
     if (!passwordIsValid) {
       return {
         accessToken: null,
-        message: 'Invalid Password!',
+        message: 'Invalid Password.',
       };
     }
 

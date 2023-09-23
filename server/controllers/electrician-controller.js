@@ -105,6 +105,42 @@ const electricianDetails = asyncHandler(async (req, res) => {
     }
 });
 
+// upload certificate of electrician
+const electricianCertificate = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Access the uploaded file using req.file
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+      }
+
+      const savedToDb = await electricianHelpers.uploadCertificateToDb(req.file, id);
+     if (savedToDb) {
+      res.status(200).json({ message: 'File uploaded successfully.', filename: req.file.filename});
+     }
+    } catch (error) {
+        console.error('error in elecCertificate', error);
+    }
+})
+
+// upload certificate of electrician
+const electricianProfilePhoto = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Access the uploaded file using req.file
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+      }
+
+      const savedToDb = await electricianHelpers.uploadProfilePhotoToDb(req.file, id);
+     if (savedToDb) {
+      res.status(200).json({ message: 'File uploaded successfully.', filename: req.file.filename});
+     }
+    } catch (error) {
+        console.error('error in elecCertificate', error);
+    }
+})
+
 module.exports = { 
     electricianLogIn, 
     electricianSignUp, 
@@ -113,5 +149,7 @@ module.exports = {
     deleteElectrician, 
     approveElectrician,
     disapproveElectrician,
-    electricianDetails
+    electricianDetails,
+    electricianCertificate,
+    electricianProfilePhoto
 };

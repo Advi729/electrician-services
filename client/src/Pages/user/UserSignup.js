@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { validateEmail, validateFirstname, validateLastname, validatePassword, validatePhone } from "../../validation/signup";
 
 const UserSignup = () => {
     const navigate = useNavigate();
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [firstname, setFirstname] = useState('');
+    const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
+    const [firstnameError, setFirstnameError] = useState('');
+    const [lastnameError, setLastnameError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [phoneError, setPhoneError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const data = {
-        firstname: firstName, 
-        lastname: lastName,
+        firstname, 
+        lastname,
         email,
         phone,
         password,
@@ -18,6 +24,25 @@ const UserSignup = () => {
 
     const handleSubmit = async (data) => {
         try {
+          if (!firstname || !lastname || !email || !phone || !password ||
+            firstnameError || lastnameError || emailError || phoneError || passwordError) {
+          if (!firstname) {
+            setFirstnameError('First name is required.');
+          } 
+          if (!lastname) {
+            setLastnameError('Last name is required.');
+          }
+          if (!email) {
+            setEmailError('Email address is required.');
+          }
+          if (!phone) {
+            setPhoneError('Phone number is required.')
+          }
+          if (!password) {
+            setPasswordError('Password is required.');
+          }
+          return; 
+        }
             const response = await fetch('http://localhost:5000/signup', {
                 method: 'POST',
                 headers: {
@@ -36,66 +61,6 @@ const UserSignup = () => {
     };
     
     return (
-        // <div className="items-center">
-        //         <label htmlFor="firstname">First Name</label>
-        //         <br/>
-        //         <input
-        //           className="input"
-        //           type="text"
-        //           value={firstName}
-        //           onChange={(e) => setFirstName(e.target.value)}
-        //           id="firstname"
-        //           name="firstname"
-        //         />
-        //         <br/>
-        //         <label htmlFor="lastname">Last Name</label>
-        //         <br/>
-        //         <input
-        //           className="input"
-        //           type="text"
-        //           value={lastName}
-        //           onChange={(e) => setLastName(e.target.value)}
-        //           id="lastname"
-        //           name="lastname"
-        //         />
-        //         <br/>
-        //         <label htmlFor="email">email</label>
-        //         <br/>
-        //         <input
-        //           className="input"
-        //           type="email"
-        //           value={email}
-        //           onChange={(e) => setEmail(e.target.value)}
-        //           id="email"
-        //           name="email"
-        //         />
-        //         <br/>
-        //         <label htmlFor="phone">Phone number</label>
-        //         <br/>
-        //         <input
-        //           className="input"
-        //           type="number"
-        //           value={phone}
-        //           onChange={(e) => setPhone(e.target.value)}
-        //           id="phone"
-        //           name="phone"
-        //         />
-        //         <br/>
-        //         <label htmlFor="password">Password</label>
-        //         <br/>
-        //         <input
-        //           className="input"
-        //           type="password"
-        //           value={password}
-        //           onChange={(e) => setPassword(e.target.value)}
-        //           id="password"
-        //           name="password"
-        //         />
-        //         <br/>
-        //         <br/>
-        //         <button onClick={() => handleSubmit(data)}>Sign Up</button>
-        //     <p>login create here</p>
-        // </div>
         <>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -120,13 +85,17 @@ const UserSignup = () => {
                   id="firstname"
                   name="firstname"
                   type="firstname"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  value={firstname}
+                  onChange={(e) => setFirstname(e.target.value)}
+                  onBlur={() => validateFirstname(firstname, setFirstnameError)}
                   autoComplete="firstname"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                  ${firstnameError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'}
+                  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {firstnameError && <p id="firstname-error" className="text-red-600 mt-1">{firstnameError}</p>}
             </div>
 
             <div>
@@ -138,13 +107,17 @@ const UserSignup = () => {
                   id="lastname"
                   name="lastname"
                   type="lastname"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={lastname}
+                  onChange={(e) => setLastname(e.target.value)}
+                  onBlur={() => validateLastname(lastname, setLastnameError)}
                   autoComplete="lastname"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                  ${lastnameError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'}
+                  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {lastnameError && <p id="lastname-error" className="text-red-600 mt-1">{lastnameError}</p>}
             </div>
 
             <div>
@@ -158,11 +131,15 @@ const UserSignup = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onBlur={() => validateEmail(email, setEmailError)}
                   autoComplete="email"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm 
+                  ${emailError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'}
+                  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {emailError && <p id="email-error" className="text-red-600 mt-1">{emailError}</p>}
             </div>
 
             <div>
@@ -176,11 +153,15 @@ const UserSignup = () => {
                   type="phone"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
+                  onBlur={() => validatePhone(phone, setPhoneError)}
                   autoComplete="phone"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm
+                  ${phoneError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'} 
+                   focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {phoneError && <p id="phone-error" className="text-red-600 mt-1">{phoneError}</p>}
             </div>
 
             <div>
@@ -201,11 +182,15 @@ const UserSignup = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onBlur={() => validatePassword(password, setPasswordError)}
                   autoComplete="current-password"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className={`block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm
+                  ${passwordError ? 'ring-1 ring-inset ring-red-600' : 'ring-1 ring-inset ring-gray-300 placeholder:text-gray-400'}
+                   focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
                 />
               </div>
+              {passwordError && <p id="password-error" className="text-red-600 mt-1">{passwordError}</p>}
             </div>
 
             <div>
@@ -219,9 +204,9 @@ const UserSignup = () => {
             </div>
           </div>
 
-          <p className="mt-10 text-center text-sm text-gray-500">
+          <p className="mt-10 mb-14 text-center text-sm text-gray-500">
             Already a member?{' '}
-            <Link to="/login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link to="/user-login" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
               Log into your account
             </Link>
           </p>

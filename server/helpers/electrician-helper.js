@@ -43,7 +43,9 @@ const findElectrician = asyncHandler(async (data) => {
     const electrician = await Electrician.findOne({ email });
 
     if (!electrician) {
-      return false;
+      return {
+        message: 'No electrician found with this email.'
+      };
     }
 
     const passwordIsValid = bcrypt.compareSync(password, electrician.password);
@@ -51,7 +53,7 @@ const findElectrician = asyncHandler(async (data) => {
     if (!passwordIsValid) {
       return {
         accessToken: null,
-        message: 'Invalid Password!',
+        message: 'Invalid Password.',
       };
     }
 
@@ -131,6 +133,51 @@ const singleElectrician = asyncHandler(async (id) => {
   }
 });
 
+// upload electrician certificate to the database
+const uploadCertificateToDb = asyncHandler(async (file, id) => {
+  try {
+    const electrician = await Electrician.findById(id);
+    if (!electrician) {
+        return ({ error: 'Electrician not found' });
+      }
+    
+      const certificateUploaded = await Electrician.updateOne(
+        { _id: id },
+        { $set: { certificate: file.filename } }
+      );
+    // electrician?.subscribedServices?.push(serviceId);
+    // const certificateUploaded = await electrician.save();
+    if (certificateUploaded.nModified !== 0) {
+        return true;
+      }
+      return false;
+  } catch (error) {
+    console.error('error in uploadCertificateToDb: ', error);
+  }
+});
+
+// upload electrician certificate to the database
+const uploadProfilePhotoToDb = asyncHandler(async (file, id) => {
+  try {
+    const electrician = await Electrician.findById(id);
+    if (!electrician) {
+        return ({ error: 'Electrician not found' });
+      }
+    
+      const profilePhotoUploaded = await Electrician.updateOne(
+        { _id: id },
+        { $set: { image: file.filename } }
+      );
+   
+    if (profilePhotoUploaded.nModified !== 0) {
+        return true;
+      }
+      return false;
+  } catch (error) {
+    console.error('error in uploadProfileToDb: ', error);
+  }
+});
+
 module.exports = { 
   addElectrician, 
   findElectrician, 
@@ -138,5 +185,7 @@ module.exports = {
   deleteTheElectrician, 
   approveTheElectrician,
   disapproveTheElectrician,
-  singleElectrician
+  singleElectrician, 
+  uploadCertificateToDb,
+  uploadProfilePhotoToDb
 };

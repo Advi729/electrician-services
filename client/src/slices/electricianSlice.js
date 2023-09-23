@@ -18,7 +18,6 @@ const electricianSlice = createSlice({
         },
         login: (state, action) => {
             state.isLoggedIn = true;
-            console.log('inside userslice: ', action.payload);
             state.electrician = action.payload;
         },
         logout: (state) => {
@@ -38,11 +37,23 @@ const electricianSlice = createSlice({
                 state.electrician.subscribedServices.splice(index, 1);
             }
         },
-        uploadProfileImage: (state, action) => {
+        uploadProfilePhoto: (state, action) => {
             state.electrician.image = action.payload;
-        }
+        },
+        uploadCertificate: (state, action) => {
+            state.electrician.certificate = action.payload;
+        },
     }
 });
 
-export const { register, login, logout, uploadProfileImage, subscribe, unsubscribe } = electricianSlice.actions;
+export const { 
+    register, 
+    login, 
+    logout, 
+    uploadProfilePhoto, 
+    subscribe, 
+    unsubscribe, 
+    uploadCertificate,
+} = electricianSlice.actions;
+
 export default electricianSlice.reducer;

@@ -170,6 +170,45 @@ const unblockTheUser = asyncHandler(async (id) => {
   }
 });
 
+// upload user profile photo to the database
+const uploadProfilePhotoToDb = asyncHandler(async (file, id) => {
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+        return ({ error: 'User not found' });
+      }
+    
+      const profilePhotoUploaded = await User.updateOne(
+        { _id: id },
+        { $set: { image: file.filename } }
+      );
+   
+    if (profilePhotoUploaded.nModified !== 0) {
+        return true;
+      }
+      return false;
+  } catch (error) {
+    console.error('error in uploadProfileToDb: ', error);
+  }
+});
+
+
+// Add address
+const addTheAddress = asyncHandler(async (data) => {
+  try {
+    const { userId, address } = data;
+    console.log('address: ', address);
+    const addressAdded = await User.updateOne({_id: userId},
+      {$push: {address}});
+    if (addressAdded.nModified !== 0) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('error in addtheaddress helper.', error);
+  }
+});
+
 module.exports = { 
   addUser, 
   findUser, 
@@ -178,5 +217,7 @@ module.exports = {
   findAllUsers, 
   deleteTheUser,
   blockTheUser, 
-  unblockTheUser 
+  unblockTheUser,
+  uploadProfilePhotoToDb,
+  addTheAddress,
 };

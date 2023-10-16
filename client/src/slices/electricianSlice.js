@@ -43,6 +43,31 @@ const electricianSlice = createSlice({
         uploadCertificate: (state, action) => {
             state.electrician.certificate = action.payload;
         },
+        addSlotToSlice: (state, action) => {
+            const slot = action.payload;
+            state.electrician.slot.push(slot);
+        },
+        deleteSlotFromSlice: (state, action) => {
+            const slotId = action.payload;
+            const index = state.electrician.slot.findIndex(slot => slot._id === slotId);
+            if (index !== -1) {
+                state.electrician.slot.splice(index, 1);
+            }
+        },
+        disableSlot: (state, action) =>  {
+            const slotId = action.payload;
+            const index = state.electrician.slot.findIndex(slot => slot._id === slotId);
+            if (index !== -1) {
+                state.electrician.slot = [
+                    ...state.electrician.slot.slice(0, index), // Keep slots before the updated one
+                    {
+                      ...state.electrician.slot[index],
+                      isDisabled: true, // Set isDisabled to true
+                    },
+                    ...state.electrician.slot.slice(index + 1), // Keep slots after the updated one
+                  ];
+            }
+        },
     }
 });
 
@@ -54,6 +79,9 @@ export const {
     subscribe, 
     unsubscribe, 
     uploadCertificate,
+    addSlotToSlice,
+    deleteSlotFromSlice,
+    disableSlot,
 } = electricianSlice.actions;
 
 export default electricianSlice.reducer;

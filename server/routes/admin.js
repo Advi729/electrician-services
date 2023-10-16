@@ -5,6 +5,7 @@ const userControllers = require('../controllers/user-controller');
 const verifySignUp = require('../middlewares/verify-sign-up');
 const authorization = require('../middlewares/auth-jwt');
 const electricianControllers = require('../controllers/electrician-controller');
+const serviceControllers = require('../controllers/service-controller');
 
 
 // Admin log in 
@@ -39,6 +40,17 @@ router.post('/add-services', adminControllers.addService);
 
 // list all the services
 router.get('/services-list', adminControllers.servicesList);
+
+// delete the service
+router.get('/delete-service/:id',serviceControllers.deleteService);
+
+// service details
+router.get('/service/:id', serviceControllers.servicesDetails);
+
+// edit service details
+router.post('/edit-service/:id', serviceControllers.editService);
+
+
 
 // // authorization
 // router.get('/api/test/user', authorization.verifyToken, (req, res) => {

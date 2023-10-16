@@ -88,7 +88,7 @@ const findAllElectricians = asyncHandler(async () => {
 // Delete the electrician
 const deleteTheElectrician = asyncHandler(async (id) => {
   try {
-      const deletedElectrician = await Electrician.deleteOne({_id: id});
+      const ddisabledElectrician = await Electrician.deleteOne({_id: id});
       if(deletedElectrician) {
           return true;
       }
@@ -178,6 +178,58 @@ const uploadProfilePhotoToDb = asyncHandler(async (file, id) => {
   }
 });
 
+// add slot to electrician document
+const addSlotToDb = asyncHandler(async (id, data) => {
+  try {
+    console.log('data obtained.', data);
+    const slotAdded = await Electrician.updateOne(
+      { _id: id },
+      { $push: { slot: data } }
+    );
+  
+  if (slotAdded.nModified !== 0) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('error in addSlotTodb', error);
+  }
+});
+
+// delete the slot from db
+const deleteTheSlot = asyncHandler(async (data) => {
+  try {
+    const { electricianId, slotId } = data;
+    const deleted = await Electrician.updateOne({_id: electricianId}, 
+      { $pull : { slot: {_id: slotId}} }
+      );
+    if (deleted) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('error in deleteService helper', error);
+  }
+}) ;
+
+// disable the booked slot
+const disableTheSlot = asyncHandler(async (electricianId, slotId) => {
+  try {
+    console.log('electricianId, slotId:  ', electricianId,slotId);
+    const disabled = await Electrician.updateOne({_id: electricianId, 'slot._id': slotId}, 
+      { $set : { 'slot.$.isDisabled': true} }
+      );
+      console.log('disabled: ', disabled);
+    if (disabled.modifiedCount === 1) {
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('error in disableslot helper', error);
+  }
+}) ;
+
+
 module.exports = { 
   addElectrician, 
   findElectrician, 
@@ -187,5 +239,8 @@ module.exports = {
   disapproveTheElectrician,
   singleElectrician, 
   uploadCertificateToDb,
-  uploadProfilePhotoToDb
+  uploadProfilePhotoToDb,
+  addSlotToDb,
+  deleteTheSlot,
+  disableTheSlot,
 };

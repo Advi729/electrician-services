@@ -1,10 +1,13 @@
 import './ElectricianCard.css';
 import manImage from '../../man.png';
 
-const electricianCard = ({ firstname, lastname, phone }) => (
+const electricianCard = ({ firstname, lastname, phone, image }) => (
   // console.log(props)
   <div className="card bg-green-50 ml-2 mr-2 shadow-xl">
-    <img src={manImage} alt='electrician' />
+    { image ?
+    <img src={`http://localhost:5000/photos/${image}`} alt='user' />
+    : <img src={manImage} alt='electrician' />
+    }
     <h2 className='pl-12'>{firstname+' '+lastname}</h2>
     <h3 className='pl-2'>contact: {phone}</h3>
     <h4 className='pl-2'>rating:</h4>

@@ -57,6 +57,20 @@ const electricianSchema = new mongoose.Schema({
       address: {
         type: String,
       },
+      slot: [
+        {
+          date: {
+            type: Date
+          },
+          time: {
+            type: String
+          },
+          isDisabled: {
+            type: Boolean,
+            default: false,
+          },
+        },
+      ],
       subscribedServices: [
       {
         type: mongoose.Schema.Types.ObjectId,

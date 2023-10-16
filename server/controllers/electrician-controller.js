@@ -141,6 +141,32 @@ const electricianProfilePhoto = asyncHandler(async (req, res) => {
     }
 })
 
+// Add time slot
+const addTimeSlot = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const added = electricianHelpers.addSlotToDb(id, req.body);
+        if(added) {
+            res.json({status: true})
+        }
+    } catch (error) {
+        console.error('Error in addtimeslot ctrlrlr', error);
+    }
+});
+
+// delete the slot
+const deleteSlot = asyncHandler(async (req, res) => {
+    try {
+        const data = req.body;
+        const deleted = electricianHelpers.deleteTheSlot(data);
+        if(deleted) {
+            res.json({status: true});
+        }
+    } catch (error) {
+        console.error('error in deleteSlot ctrllr', error);
+    }
+});
+
 module.exports = { 
     electricianLogIn, 
     electricianSignUp, 
@@ -151,5 +177,7 @@ module.exports = {
     disapproveElectrician,
     electricianDetails,
     electricianCertificate,
-    electricianProfilePhoto
+    electricianProfilePhoto,
+    addTimeSlot,
+    deleteSlot,
 };

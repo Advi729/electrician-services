@@ -104,6 +104,36 @@ const unblockUser = asyncHandler(async (req, res) => {
     }
 });
 
+// upload profile photo of user
+const userProfilePhoto = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        // Access the uploaded file using req.file
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+      }
+
+      const savedToDb = await userHelpers.uploadProfilePhotoToDb(req.file, id);
+     if (savedToDb) {
+      res.status(200).json({ message: 'File uploaded successfully.', filename: req.file.filename});
+     }
+    } catch (error) {
+        console.error('error in userPhoto', error);
+    }
+})
+
+// add address
+const addAddress = asyncHandler(async (req, res) =>{
+    try {
+        const data = req.body;
+        const added = await userHelpers.addTheAddress(data);
+        if (added) {
+            res.json({status: true})
+        }
+    } catch (error) {
+        console.error('error in addAddress ctrl', error);
+    }
+});
 
 module.exports = { 
     userSignUp,
@@ -113,5 +143,7 @@ module.exports = {
     usersList, 
     deleteUser,
     blockUser,
-    unblockUser 
+    unblockUser,
+    userProfilePhoto,
+    addAddress,
 };

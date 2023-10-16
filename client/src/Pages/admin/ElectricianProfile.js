@@ -94,7 +94,10 @@ const ElectricianProfile = () => {
       <div className="flex justify-start">
 <div className="">
 <div className="w-4/12 card bg-green-50 ml-2 mr-2 shadow-xl">
-    <img src={manImage} alt='electrician' />
+  { electricianDetails?.image ?
+    <img src={`http://localhost:5000/photos/${electricianDetails?.image}`} alt='electrician' />
+    : <img src={manImage} alt='manImage' />
+  }
     <h2 className='pl-10'>{electricianDetails?.firstname+' '+electricianDetails?.lastname}</h2>
     <h3 className='pl-2'>contact: {electricianDetails?.phone}</h3>
     <h4 className='pl-2'>rating:</h4>

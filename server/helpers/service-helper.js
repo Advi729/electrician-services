@@ -85,4 +85,37 @@ const findService = asyncHandler(async (id) => {
   }
 });
 
-module.exports = { subcribetheService, unsubcribetheService, findService };
+// delete the service from db
+const deleteTheService = asyncHandler(async (id) => {
+  try {
+    const deleted = await Service.deleteOne({_id: id});
+    if (deleted) {
+      return true;
+    }
+  } catch (error) {
+    console.error('error in deleteService helper', error);
+  }
+}) ;
+
+// edit the service
+  const editTheService = asyncHandler(async (data, id) => {
+    try {
+      const serviceEdited = await Service.updateOne({_id: id}, 
+      { $set: {title: data.title, description: data.description, price: data.price}});
+
+      if (serviceEdited) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('error in edittheservice helper',error);
+    }
+  });
+
+module.exports = { 
+  subcribetheService, 
+  unsubcribetheService, 
+  findService,
+  deleteTheService, 
+  editTheService,
+};

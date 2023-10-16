@@ -32,11 +32,43 @@ const servicesDetails = asyncHandler(async (req, res) => {
         const service = await serviceHelpers.findService(id);
         console.log('services in findservices: ', service);
         if(service) {
-            res.json({service});
+            res.json(service);
         }
     } catch (error) {
         console.error('error in serviceslist ctrlller: ', error);
     }
 });
 
-module.exports = { subscribeService, unsubscribeService, servicesDetails };
+// delete the service
+const deleteService = asyncHandler(async (req, res) => {
+    try {
+        const {id} = req.params;
+        const deleted = serviceHelpers.deleteTheService(id);
+        if(deleted) {
+            res.json('service deleted');
+        }
+    } catch (error) {
+        console.error('error in deleteService ctrllr', error);
+    }
+});
+
+const editService = asyncHandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const editedService = await serviceHelpers.editTheService(req.body, id);
+        if (editedService) {
+            res.json({status: true});
+            console.log(editedService,'service edited');
+        }
+    } catch (error) {
+        console.error('error in addservice ctrller', error);
+    }
+})
+
+module.exports = { 
+    subscribeService, 
+    unsubscribeService, 
+    servicesDetails,
+    deleteService,
+    editService,
+};

@@ -24,6 +24,10 @@ import ElectricianProfileService from './Pages/user/ElectricianProfile';
 import ElectricianCertificate from './Components/ElectricianCertificate/ElectricianCertificate';
 import ElectricianProfileAdmin from './Pages/admin/ElectricianProfile';
 import ElectricianCertificateAdmin from './Pages/admin/ElectricianCertificateAdmin';
+import EditServices from './Pages/admin/EditServices';
+import TimeSlot from './Pages/electrician/TimeSlot';
+import Checkout from './Pages/user/Checkout';
+import Bookings from './Pages/user/Bookings';
 
 const appRouter = createBrowserRouter([
   {
@@ -50,6 +54,14 @@ const appRouter = createBrowserRouter([
       {
         path: '/electrician-profile/:id',
         element: <ElectricianProfileService />,
+      },
+      {
+        path: '/checkout',
+        element: <Checkout />,
+      },
+      {
+        path: '/bookings-list',
+        element: <Bookings />,
       },
     ],
   },
@@ -94,6 +106,10 @@ const appRouter = createBrowserRouter([
         path: '/admin/electrician-certificate/:id',
         element: <ElectricianCertificateAdmin />
       },
+      {
+        path: '/admin/edit-service/:id',
+        element: <EditServices />,
+      },
     ],
   },
   {
@@ -128,6 +144,10 @@ const appRouter = createBrowserRouter([
       {
         path: '/electrician/certificate',
         element: <ElectricianCertificate />,
+      },
+      {
+        path: '/electrician/time-slot',
+        element: <TimeSlot />
       },
     ],
   },

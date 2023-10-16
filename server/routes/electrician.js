@@ -28,4 +28,10 @@ router.post('/upload-certificate/:id', uploadPdfMiddleware.uploadCertificate, el
 // upload profile photo
 router.post('/upload-photo/:id', uploadProfilePhotoMiddleware.uploadProfilePhoto, electricianControllers.electricianProfilePhoto);
 
+// add time slot
+router.post('/add-slot/:id', electricianControllers.addTimeSlot);
+
+// delete the time slot
+router.post('/delete-slot', electricianControllers.deleteSlot);
+
 module.exports = router;
